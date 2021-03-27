@@ -1,0 +1,19 @@
+{
+  "name": "alraedah-finance-ta-bot",
+  "version": "1.0.0",
+  "description": "A health-check bot for products purchased online by the customer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheAhmedSaeed/AlRaedah-Finance-TA-Bot.git"
+  },
+  "author": "Ahmed Saeed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheAhmedSaeed/AlRaedah-Finance-TA-Bot/issues"
+  },
+  "homepage": "https://github.com/TheAhmedSaeed/AlRaedah-Finance-TA-Bot#readme"
+}
