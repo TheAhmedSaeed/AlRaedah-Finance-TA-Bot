@@ -18,6 +18,7 @@
   "homepage": "https://github.com/TheAhmedSaeed/AlRaedah-Finance-TA-Bot#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
     "telegraf": "^4.3.0"
   }
 }
