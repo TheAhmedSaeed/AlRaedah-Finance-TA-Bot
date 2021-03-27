@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/TheAhmedSaeed/AlRaedah-Finance-TA-Bot/issues"
   },
-  "homepage": "https://github.com/TheAhmedSaeed/AlRaedah-Finance-TA-Bot#readme"
+  "homepage": "https://github.com/TheAhmedSaeed/AlRaedah-Finance-TA-Bot#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "telegraf": "^4.3.0"
+  }
 }
