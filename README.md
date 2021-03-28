@@ -1,36 +1,16 @@
-AlRaedah-Finance-TA-Bot
+# AlRaedah Finance Technical Assesment ( Telegram BOT )
 
-# AlRaedah Finance Technical Assesment
+# How to run the project:
 
-Status: In progress
+1. Clone the repo
+2. Make sure you have npm installed 
+3. Run npm i on the terminal to install the dependencies
+4. Cd to src and run node index.js
+5. Now the bot is up and running
+6. Now go to this link [https://t.me/AlRaedahCSBot](https://t.me/AlRaedahCSBot) to talk to the bot
+7. When sending the start command the bot will ask you to enter the tracking number. 
+8. I made it simple and have added a dummy data for now that is available in data.json file.
+9. Two objects with the tracking number ( o1, o2 ) are available for you to test with.
+10. Send (o1 or o2) - the tracking values to the bot and it will prompt you to choose one of the options to evaluate. 
 
-# Reqirements
-
-> The Assessment is about creating a health-check bot for products purchased online by the customer to 
-1- guarantee the quality of the product and the service while filling a survey regarding the online order.
-
-1. The health-check should include questions about 
-    1. quality of tracking the shipment 
-    2. delivery location ( Sending Location )
-    3.  physical status of the product and price ( Sending Pictures )
-2. Chatbot will exist in telegram using Nodejs and telegraf library ( Using Typescript is a huge plus ).
-3. Chatbot can handle a full interactive scenario with managing different actions that the user can trigger.
-4. Sending Picture & Location by the user should be included in the scenario.
-5. Simple session is mandatory.
-6. Variables stored in the session should be accessible and can be viewed especially photos and locations.
-7. The assessment should be submitted in a public git repository with the needed documentation to run the project.
-8. Dockerizing & Deploying the project is a plus.
-
-# Todo by me
-
-- Start
-    - "Hi How can I help you today?"
-        1. "Review last order" 
-        2. "View all orders"
-        3. "View previous Reviews"
-- help
-    1. "Review last order" 
-    2. "View all orders"
-    3. "View previous Reviews"
-
-[]()
+##
