@@ -15,24 +15,5 @@
 
 ## A sample of me running the program
 
-![AlRaedah%20Finance%20Technical%20Assesment%20(%20Telegram%20BO%20e8eeaef47c014f3c982a98cad49c7985/Untitled.png](AlRaedah%20Finance%20Technical%20Assesment%20(%20Telegram%20BO%20e8eeaef47c014f3c982a98cad49c7985/Untitled.png)
-
-After choosing tracking
-
-![AlRaedah%20Finance%20Technical%20Assesment%20(%20Telegram%20BO%20e8eeaef47c014f3c982a98cad49c7985/Untitled%201.png](AlRaedah%20Finance%20Technical%20Assesment%20(%20Telegram%20BO%20e8eeaef47c014f3c982a98cad49c7985/Untitled%201.png)
-
-After choosing 5
-
-![AlRaedah%20Finance%20Technical%20Assesment%20(%20Telegram%20BO%20e8eeaef47c014f3c982a98cad49c7985/Untitled%202.png](AlRaedah%20Finance%20Technical%20Assesment%20(%20Telegram%20BO%20e8eeaef47c014f3c982a98cad49c7985/Untitled%202.png)
-
-After choosing status
-
-![AlRaedah%20Finance%20Technical%20Assesment%20(%20Telegram%20BO%20e8eeaef47c014f3c982a98cad49c7985/Untitled%203.png](AlRaedah%20Finance%20Technical%20Assesment%20(%20Telegram%20BO%20e8eeaef47c014f3c982a98cad49c7985/Untitled%203.png)
-
-Choosing View last photo 
-
-![AlRaedah%20Finance%20Technical%20Assesment%20(%20Telegram%20BO%20e8eeaef47c014f3c982a98cad49c7985/Untitled%204.png](AlRaedah%20Finance%20Technical%20Assesment%20(%20Telegram%20BO%20e8eeaef47c014f3c982a98cad49c7985/Untitled%204.png)
-
-That was it for my experiment. 
-
-Please go ahead and enjoy my nice bot services
+Please visit this link to view my experiment to show you how to interact with the bot
+https://www.notion.so/ahmedsaeed/AlRaedah-Finance-Technical-Assesment-Telegram-BOT-3f17c37b3be74b258b04bdd96abd7dee
