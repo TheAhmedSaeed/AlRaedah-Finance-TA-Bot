@@ -39,17 +39,22 @@ bot.on("text", (ctx) => {
 });
 
 // for evaluating
-bot.action(msgs.evalutaionOptions[0], (ctx) => {
+bot.action(msgs.evaluatedElementRegex, (ctx) => {
+  const query = ctx.update.callback_query.data;
+  console.log(query);
   ctx.telegram.sendMessage(
     ctx.chat.id,
-    "How would you rate tracking the shipment ?",
+    "How many stars would you rate tracking the shipment ?",
     {
       reply_markup: {
         inline_keyboard: [
           msgs.starsOptions.map((starsOption) => {
             return {
               text: starsOption,
-              callback_data: starsOption,
+              callback_data: msgs.createEvaluationExpression(
+                query,
+                starsOption
+              ),
             };
           }),
         ],
@@ -58,8 +63,8 @@ bot.action(msgs.evalutaionOptions[0], (ctx) => {
   );
 });
 
-bot.action(["⭐️", "⭐️⭐️"], (ctx) => {
-  console.log("Made it. Phew");
+bot.action(msgs.evalutatingRegEx, (ctx) => {
+  console.log(ctx.update.callback_query.data);
 });
 
 bot.launch();
