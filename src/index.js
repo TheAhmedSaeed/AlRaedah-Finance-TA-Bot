@@ -58,6 +58,38 @@ bot.action(msgs.evaluatedElementRegex, (ctx) => {
   const query = ctx.update.callback_query.data;
   ctx.deleteMessage();
 
+  shownStatusOptions =
+    activeOrder["photoId"] != ""
+      ? [
+          {
+            text: "Send a photo",
+            callback_data: "recievePhoto",
+          },
+          {
+            text: "View last sent photo",
+            callback_data: "viewPhoto",
+          },
+        ]
+      : [
+          {
+            text: "Send a photo",
+            callback_data: "recievePhoto",
+          },
+        ];
+
+  shownLocationOptions = activeOrder["location"]["lat"]
+    ? [
+        {
+          text: "Send a location",
+          callback_data: "recLoc",
+        },
+        {
+          text: "View last location",
+          callback_data: "viewLoc",
+        },
+      ]
+    : [];
+
   ctx.telegram.sendMessage(
     ctx.chat.id,
     "How many stars would you rate the " + query + "?",
@@ -74,28 +106,38 @@ bot.action(msgs.evaluatedElementRegex, (ctx) => {
             };
           }),
           query == "status"
-            ? [
-                {
-                  text: "Send a photo of the product status",
-                  callback_data: "recievePhoto",
-                },
-              ]
+            ? shownStatusOptions
             : query == "location"
-            ? [
-                {
-                  text: "Send a location",
-                  callback_data: "recLoc",
-                },
-              ]
+            ? shownLocationOptions
             : [],
-          [{ text: "Return to previous menu", callback_data: "returnToMenu" }],
+          [
+            {
+              text: "Return to previous menu",
+              callback_data: "returnToMenu",
+            },
+          ],
         ],
       },
     }
   );
 });
 
+bot.action("viewPhoto", (ctx) => {
+  ctx.deleteMessage();
+  ctx.telegram.sendPhoto(ctx.chat.id, activeOrder["photoId"]);
+});
+
+bot.action("viewLoc", (ctx) => {
+  ctx.deleteMessage();
+  ctx.telegram.sendLocation(
+    ctx.chat.id,
+    activeOrder["location"]["lat"],
+    activeOrder["location"]["lang"]
+  );
+});
+
 bot.action("recievePhoto", (ctx) => {
+  console.log(activeOrder["photoId"] != "");
   ctx.deleteMessage();
   isRecieveingPhotoActive = true;
   ctx.reply("I am waiting for your photo 🤖 ...");
@@ -115,12 +157,12 @@ bot.on("photo", (ctx) => {
   else {
     let photoId = ctx.update.message.photo[0].file_id;
     orders[activeOrder.id]["photoId"] = photoId;
+    activeOrder = orders[activeOrder.id];
     FileSystem.writeFile("data.json", JSON.stringify(orders), (error) => {
       if (error) {
         ctx.telegram.reply(ctx.chat.id, "Sorry something went wrong");
         throw error;
       } else {
-        ctx.telegram.sendPhoto(ctx.chat.id, photoId);
         ctx.reply(
           "Your photo has been recieed\n Actions will be taken if anything was wrong"
         );
@@ -148,6 +190,8 @@ bot.on("location", (ctx) => {
   else {
     const location = ctx.update.message.location;
     orders[activeOrder.id]["location"] = location;
+    activeOrder = orders[activeOrder.id];
+
     FileSystem.writeFile("data.json", JSON.stringify(orders), (error) => {
       if (error) {
         ctx.telegram.reply(ctx.chat.id, "Sorry something went wrong");
@@ -155,11 +199,6 @@ bot.on("location", (ctx) => {
       } else {
         ctx.reply(
           "Your location has been recieed\n Actions will be taken if anything was wrong"
-        );
-        ctx.telegram.sendLocation(
-          ctx.chat.id,
-          location.latitude,
-          location.longitude
         );
       }
     });
@@ -174,6 +213,7 @@ bot.action(msgs.evalutatingRegEx, (ctx) => {
   const numOfStars = splittedMsg[2];
 
   orders[activeOrder.id]["review"][evaluatedElement]["stars"] = numOfStars;
+  activeOrder = orders[activeOrder.id];
 
   FileSystem.writeFile("data.json", JSON.stringify(orders), (error) => {
     if (error) {

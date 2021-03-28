@@ -15,7 +15,7 @@
     "id": "o2",
     "trackingNumber": "456",
     "photoId": "",
-    "location": { "lat": 21.405058, "lang": 39.259973 },
+    "location": {},
     "review": {
       "tracking": { "stars": "5" },
       "location": { "stars": "4" },
