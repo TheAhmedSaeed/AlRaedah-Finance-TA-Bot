@@ -3,12 +3,13 @@ const msgs = require("./messages");
 require("dotenv").config({ path: __dirname + "/.env" }); // setting environment variables
 const FileSystem = require("fs");
 
+// was used for decorizing and safety. Todo later
 const { Telegraf, Markup } = require("telegraf");
 const token = process.env.BOT_TOKEN;
 if (token === undefined) {
   throw new Error("BOT_TOKEN must be provided!");
 }
-const bot = new Telegraf(token);
+const bot = new Telegraf("1627697270:AAE7dCRggdjPdJSv8Ekz1DgpdDzH6HV5mOk");
 
 // global variables
 let activeOrder;
