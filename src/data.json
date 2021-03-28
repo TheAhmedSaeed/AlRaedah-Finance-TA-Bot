@@ -1,1 +1,26 @@
-{"o1":{"id":"o1","trackingNumber":"123","photoId":"AgACAgQAAxkBAAICmmBgZgPaDn9KUcDjwApmVPqmjxiPAAL3szEbTUoBU1pBox-N9xUbnL3mK10AAwEAAwIAA20AAzeaAgABHgQ","location":{"lat":21.40519981647183,"lang":39.2599074367627},"review":{"tracking":{"stars":"3"},"location":{"stars":"4"},"status":{"stars":3},"price":{"stars":4}}},"o2":{"id":"o2","trackingNumber":"456","photoId":"","location":{"lat":21.40519981647183,"lang":39.2599074367627},"review":{"tracking":{"stars":"5"},"location":{"stars":"4"},"status":{"stars":3},"price":{"stars":4}}}}
+{
+  "o1": {
+    "id": "o1",
+    "trackingNumber": "123",
+    "photoId": "AgACAgQAAxkBAAICmmBgZgPaDn9KUcDjwApmVPqmjxiPAAL3szEbTUoBU1pBox-N9xUbnL3mK10AAwEAAwIAA20AAzeaAgABHgQ",
+    "location": { "lat": 21.40519981647183, "lang": 39.2599074367627 },
+    "review": {
+      "tracking": { "stars": "3" },
+      "location": { "stars": "4" },
+      "status": { "stars": 3 },
+      "price": { "stars": 4 }
+    }
+  },
+  "o2": {
+    "id": "o2",
+    "trackingNumber": "456",
+    "photoId": "",
+    "location": { "lat": 21.405058, "lang": 39.259973 },
+    "review": {
+      "tracking": { "stars": "5" },
+      "location": { "stars": "4" },
+      "status": { "stars": 3 },
+      "price": { "stars": 4 }
+    }
+  }
+}

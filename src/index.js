@@ -13,8 +13,10 @@ const bot = new Telegraf(token);
 // global variables
 let activeOrder;
 let isRecieveingPhotoActive = false;
+let isRecieveingLocationctive = false;
 
 bot.command("start", (ctx) => {
+  ctx.deleteMessage();
   let user = ctx.update.message.from;
   ctx.reply(msgs.createMSgWithName(msgs.welcomeMsg, user.first_name));
 });
@@ -82,7 +84,7 @@ bot.action(msgs.evaluatedElementRegex, (ctx) => {
             ? [
                 {
                   text: "Send a location",
-                  callback_data: "returnToMenu",
+                  callback_data: "recLoc",
                 },
               ]
             : [],
@@ -91,6 +93,77 @@ bot.action(msgs.evaluatedElementRegex, (ctx) => {
       },
     }
   );
+});
+
+bot.action("recievePhoto", (ctx) => {
+  ctx.deleteMessage();
+  isRecieveingPhotoActive = true;
+  ctx.reply("I am waiting for your photo 🤖 ...");
+});
+
+bot.on("photo", (ctx) => {
+  ctx.deleteMessage();
+
+  if (!isRecieveingPhotoActive)
+    ctx.reply(`
+  If you want to send a photo of the product\n  
+  Please do the following\n
+  1. Send the tracking number\n
+  2. Choose Status\n
+  3. Click on Send a photo\n
+  `);
+  else {
+    let photoId = ctx.update.message.photo[0].file_id;
+    orders[activeOrder.id]["photoId"] = photoId;
+    FileSystem.writeFile("data.json", JSON.stringify(orders), (error) => {
+      if (error) {
+        ctx.telegram.reply(ctx.chat.id, "Sorry something went wrong");
+        throw error;
+      } else {
+        ctx.telegram.sendPhoto(ctx.chat.id, photoId);
+        ctx.reply(
+          "Your photo has been recieed\n Actions will be taken if anything was wrong"
+        );
+      }
+    });
+
+    isRecieveingPhotoActive = false;
+  }
+});
+
+bot.action("recLoc", (ctx) => {
+  isRecieveingLocationctive = true;
+  ctx.reply("I am waiting for your location 🤖 ...");
+});
+
+bot.on("location", (ctx) => {
+  if (!isRecieveingLocationctive)
+    ctx.reply(`
+  If you want to send a location \n  
+  Please do the following\n
+  1. Send the tracking number\n
+  2. Choose Location\n
+  3. Click on Send a location\n
+  `);
+  else {
+    const location = ctx.update.message.location;
+    orders[activeOrder.id]["location"] = location;
+    FileSystem.writeFile("data.json", JSON.stringify(orders), (error) => {
+      if (error) {
+        ctx.telegram.reply(ctx.chat.id, "Sorry something went wrong");
+        throw error;
+      } else {
+        ctx.reply(
+          "Your location has been recieed\n Actions will be taken if anything was wrong"
+        );
+        ctx.telegram.sendLocation(
+          ctx.chat.id,
+          location.latitude,
+          location.longitude
+        );
+      }
+    });
+  }
 });
 
 bot.action(msgs.evalutatingRegEx, (ctx) => {
@@ -154,44 +227,6 @@ bot.action("returnToMenu", (ctx) => {
   );
 });
 
-bot.action("recievePhoto", (ctx) => {
-  ctx.deleteMessage();
-  isRecieveingPhotoActive = true;
-  ctx.reply("I am waiting for your photo 🤖 ...");
-});
-
-bot.on("photo", (ctx) => {
-  ctx.deleteMessage();
-
-  if (!isRecieveingPhotoActive)
-    ctx.reply(`If you want to send a photo of the product\n  
-  Please do the following\n
-  1. Send the tracking number\n
-  2. Choose Status\n
-  3. Click on Send a photo\n
-  `);
-  else {
-    let photoId = ctx.update.message.photo[0].file_id;
-    orders[activeOrder.id]["photoId"] = photoId;
-    FileSystem.writeFile("data.json", JSON.stringify(orders), (error) => {
-      if (error) {
-        ctx.telegram.reply(ctx.chat.id, "Sorry something went wrong");
-        throw error;
-      } else {
-        ctx.telegram.sendPhoto(ctx.chat.id, photoId);
-        ctx.reply(
-          "Your photo has been recieed\n Actions will be taken if anything was wrong"
-        );
-      }
-    });
-
-    isRecieveingPhotoActive = false;
-  }
-});
-
-bot.on("location", (ctx) => {
-  console.log(ctx);
-});
 bot.launch();
 
 // Enable graceful stop
