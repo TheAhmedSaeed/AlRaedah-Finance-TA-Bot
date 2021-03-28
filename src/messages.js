@@ -7,7 +7,7 @@ const evalutatingRegEx = new RegExp(
 
 const evaluatedElementRegex = new RegExp(
   "^" + evalutaionOptions.join("|"),
-  "im"
+  "i"
 );
 const starsOptions = ["1", "2", "3", "4", "5"];
 
@@ -17,7 +17,6 @@ let welcomeMsg = "please enter the tracking number to review the order \n";
 
 function createMSgWithName(msg, name) {
   var msg = "Dear " + name + "," + msg + "\n";
-
   return msg;
 }
 
