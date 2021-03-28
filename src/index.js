@@ -10,8 +10,15 @@ if (token === undefined) {
 }
 const bot = new Telegraf(token);
 
+// global variables
 let activeOrder;
+let isRecieveingPhotoActive = false;
+
 bot.command("start", (ctx) => {
+  let user = ctx.update.message.from;
+  ctx.reply(msgs.createMSgWithName(msgs.welcomeMsg, user.first_name));
+});
+bot.command("help", (ctx) => {
   let user = ctx.update.message.from;
   ctx.reply(msgs.createMSgWithName(msgs.welcomeMsg, user.first_name));
 });
@@ -19,7 +26,10 @@ bot.command("start", (ctx) => {
 bot.on("text", (ctx) => {
   let order = orders[ctx.update.message.text];
 
-  if (!order) ctx.reply("There is no order with this tracking number");
+  if (!order)
+    ctx.reply(
+      "There is no order with this tracking number. Please enter a valid tracking number"
+    );
   else {
     activeOrder = order;
     ctx.telegram.sendMessage(
@@ -61,6 +71,21 @@ bot.action(msgs.evaluatedElementRegex, (ctx) => {
               ),
             };
           }),
+          query == "status"
+            ? [
+                {
+                  text: "Send a photo of the product status",
+                  callback_data: "recievePhoto",
+                },
+              ]
+            : query == "location"
+            ? [
+                {
+                  text: "Send a location",
+                  callback_data: "returnToMenu",
+                },
+              ]
+            : [],
           [{ text: "Return to previous menu", callback_data: "returnToMenu" }],
         ],
       },
@@ -76,17 +101,33 @@ bot.action(msgs.evalutatingRegEx, (ctx) => {
   const numOfStars = splittedMsg[2];
 
   orders[activeOrder.id]["review"][evaluatedElement]["stars"] = numOfStars;
-  console.log(orders[activeOrder.id]);
+
   FileSystem.writeFile("data.json", JSON.stringify(orders), (error) => {
     if (error) {
+      ctx.telegram.reply(ctx.chat.id, "Sorry something went wrong");
       console.log(error);
       throw error;
     } else {
-      ctx.reply(
-        "Changes have been saved " +
+      ctx.telegram.sendMessage(
+        ctx.chat.id,
+        "Thanks for your response new " +
           evaluatedElement +
           " rating is " +
-          numOfStars
+          numOfStars +
+          "\n" +
+          "Plese choose abother one if you like",
+        {
+          reply_markup: {
+            inline_keyboard: [
+              msgs.evalutaionOptions.map((option) => {
+                return {
+                  text: option.charAt(0).toUpperCase() + option.substring(1),
+                  callback_data: option,
+                };
+              }),
+            ],
+          },
+        }
       );
     }
   });
@@ -96,7 +137,7 @@ bot.action("returnToMenu", (ctx) => {
   ctx.deleteMessage();
   ctx.telegram.sendMessage(
     ctx.chat.id,
-    "Plese choose on of the following options to evaluate",
+    "Plese choose one of the following options to evaluate",
     {
       reply_markup: {
         inline_keyboard: [
@@ -113,6 +154,44 @@ bot.action("returnToMenu", (ctx) => {
   );
 });
 
+bot.action("recievePhoto", (ctx) => {
+  ctx.deleteMessage();
+  isRecieveingPhotoActive = true;
+  ctx.reply("I am waiting for your photo 🤖 ...");
+});
+
+bot.on("photo", (ctx) => {
+  ctx.deleteMessage();
+
+  if (!isRecieveingPhotoActive)
+    ctx.reply(`If you want to send a photo of the product\n  
+  Please do the following\n
+  1. Send the tracking number\n
+  2. Choose Status\n
+  3. Click on Send a photo\n
+  `);
+  else {
+    let photoId = ctx.update.message.photo[0].file_id;
+    orders[activeOrder.id]["photoId"] = photoId;
+    FileSystem.writeFile("data.json", JSON.stringify(orders), (error) => {
+      if (error) {
+        ctx.telegram.reply(ctx.chat.id, "Sorry something went wrong");
+        throw error;
+      } else {
+        ctx.telegram.sendPhoto(ctx.chat.id, photoId);
+        ctx.reply(
+          "Your photo has been recieed\n Actions will be taken if anything was wrong"
+        );
+      }
+    });
+
+    isRecieveingPhotoActive = false;
+  }
+});
+
+bot.on("location", (ctx) => {
+  console.log(ctx);
+});
 bot.launch();
 
 // Enable graceful stop
